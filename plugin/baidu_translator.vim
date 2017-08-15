@@ -104,8 +104,8 @@ def get_query_url(query):
     secretKey = vim.eval("g:baidu_secretKey")
 
     myurl = 'http://api.fanyi.baidu.com/api/trans/vip/translate'
-    fromLang = 'en'
-    toLang = 'zh'
+    fromLang = 'auto'
+    toLang = 'auto'
     salt = random.randint(32768, 65536)
 
     sign = appid+query+str(salt)+secretKey
