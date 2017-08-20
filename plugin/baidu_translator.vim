@@ -82,6 +82,8 @@ def url_quote(word):
     else:
         return urllib.quote(word.encode('utf-8'))
 
+QUERY_BLACK_LIST = ['.', '|', '^', '$', '\\', '[', ']', '{', '}', '*', '+', '?', '(', ')', '&', '=', '\"', '\'', '\t']
+
 def preprocess_word(word):
     word = word.strip()
     for i in QUERY_BLACK_LIST:
