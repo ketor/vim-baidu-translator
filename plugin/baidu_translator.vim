@@ -30,11 +30,13 @@ function! s:GetCursorWord()
 endfunction
 
 if !exists("g:baidu_appid")
-    let g:baidu_appid='20151113000005349'
+    "let g:baidu_appid='20151113000005349'
+    let g:baidu_appid=''
 endif
 
 if !exists("g:baidu_secretKey")
-    let g:baidu_secretKey='osubCEzlGjzvw8qdQc41'
+    "let g:baidu_secretKey='osubCEzlGjzvw8qdQc41'
+    let g:baidu_secretKey=''
 endif
 
 exec s:python_until_eof
@@ -140,9 +142,32 @@ def query_from_baidu(query):
     else:
         return 'NO_RESULT'
 
+def query_from_baidu_noappid(query):
+    try:
+        word = preprocess_word(query)
+        if not word:
+            return ''
+        r = urlopen('http://fanyi.baidu.com/v2transapi?from=auto&to=auto&query='+url_quote(query))
+    except IOError:
+        return 'NETWORK_ERROR'
+
+    response = json.loads(bytes_decode(r.read()))
+    response = response.get('trans_result').get('data')
+    result = ''
+    if response is not None and len(response) > 0:
+        for i in response:
+            result = result + i.get('dst') + "\n"
+        return result
+    else:
+        return 'NO_RESULT'
+
 def baidu_translate_visual_selection(lines):
     lines = str_decode(lines)
-    info = query_from_baidu(lines)
+    appid = vim.eval("g:baidu_appid")
+    if appid != '':
+        info = query_from_baidu(lines)
+    else:
+        info = query_from_baidu_noappid(lines)
     for line in info.split('\n'):
         vim.command('echo "'+ line +'"')
 EOF

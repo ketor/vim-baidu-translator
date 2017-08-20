@@ -15,8 +15,20 @@ vim baidu translater 是一个利用百度翻译API制作的vim插件，可以�
 	git clone https://github.com/ketor/vim-baidu-translator.git
 
 
-###  其他
+###  配置
 添加 `~/.vimrc` 文件：
+
+Without Baidu appid/secretKey
+
+```vim
+vnoremap <silent> <C-T> :<C-u>Bdv<CR>
+nnoremap <silent> <C-T> :<C-u>Bdc<CR>
+
+nnoremap <leader>bd :<C-u>Bdc<CR>
+vnoremap <leader>bd :<C-u>Bdv<CR>
+```
+
+With Baidu appid/secretKey
 
 ```vim
 let g:baidu_appid=YourAppId
@@ -28,6 +40,8 @@ nnoremap <silent> <C-T> :<C-u>Bdc<CR>
 nnoremap <leader>bd :<C-u>Bdc<CR>
 vnoremap <leader>bd :<C-u>Bdv<CR>
 ```
+
+如果没有配置百度的appid和secretKey，插件将会直接访问百度Web端解析，未来如果百度改变了web api的接口则可能查不到结果。
 
 ## 如何使用
 
